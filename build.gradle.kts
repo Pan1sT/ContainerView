@@ -41,7 +41,7 @@ dependencies {
 
     implementation("com.github.stefvanschie.inventoryframework:IF:0.10.11")
 
-    implementation("io.github.skytasul:glowingentities:1.3")
+    implementation("io.github.skytasul:glowingentities:1.3") // update the glowing library here
 
 }
 
