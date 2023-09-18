@@ -10,7 +10,11 @@ public class Setting {
 
     @YamlKey("setting.cached-duration")
     @YamlComment("cached result duration, in seconds")
-    public Integer cachedDuration = 10;
+    public Integer cachedDuration = 60;
+
+    @YamlKey("setting.checkPeriod")
+    @YamlComment("async cache task period, in ticks")
+    public Integer checkPeriod = 20;
 
     @YamlKey("message.command.reload")
     public String reload = "<grey> Configuration reloaded!";
@@ -26,6 +30,12 @@ public class Setting {
 
     @YamlKey("message.command.invalid-syntax")
     public String invalidSyntax = "<red>Invalid command syntax. Correct command syntax is: <syntax>";
+
+    @YamlKey("message.query-not-found")
+    public String queryNotFound = "<grey>There are no Containers found in range.";
+
+    @YamlKey("message.container-not-found")
+    public String containerNotFound = "<red>The container that you are inspecting is not found.";
 
     @YamlKey("message.no-cached-result")
     public String noCachedResult = "<red>You do not have any cached result";
@@ -44,6 +54,12 @@ public class Setting {
 
     @YamlKey("message.result-footer")
     public String resultFooter = "<result_previous> | page: <current_page> / <total_page> | <result_next> ";
+
+    @YamlKey("message.result-footer-first")
+    public String resultFooterFirst = "page: <current_page> / <total_page> | <result_next> ";
+
+    @YamlKey("message.result-footer-last")
+    public String resultFooterLast = "<result_previous> | page: <current_page> / <total_page>";
 
     @YamlKey("message.result-previous")
     public String resultPrevious = "<-- previous";

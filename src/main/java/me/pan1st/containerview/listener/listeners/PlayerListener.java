@@ -6,6 +6,7 @@ import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 
 public class PlayerListener implements Listener {
 
@@ -24,6 +25,14 @@ public class PlayerListener implements Listener {
             }
         });
 
+    }
+
+    @EventHandler
+    public void onQuit(PlayerQuitEvent e){
+        ContainerView plugin = ContainerView.getInstance();
+        if (plugin.playerProfiles.containsKey(e.getPlayer().getUniqueId())){
+            plugin.playerProfiles.remove(e.getPlayer().getUniqueId());
+        }
     }
 
 }

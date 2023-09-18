@@ -1,7 +1,9 @@
 package me.pan1st.containerview.profile;
 
+import org.bukkit.Location;
 import org.bukkit.block.BlockState;
 
+import java.time.Instant;
 import java.util.*;
 
 public class PlayerProfile {
@@ -9,13 +11,15 @@ public class PlayerProfile {
     private UUID playerUUID;
     private List<List<BlockState>> containerPages;
     private int currentPage;
+    private Location queryLocation;
+    private Instant queryTime;
 
-
-    public PlayerProfile(UUID uuid, List<BlockState> containerList){
+    public PlayerProfile(UUID uuid, List<BlockState> containerList, Location queryLocation, Instant queryTime){
         this.playerUUID = uuid;
         this.currentPage = 0;
         this.containerPages = partitionEntities(containerList, 16);
-
+        this.queryLocation = queryLocation;
+        this.queryTime = queryTime;
     }
 
     public UUID getUUID(){
@@ -29,6 +33,10 @@ public class PlayerProfile {
     public void setPage(int page){
         this.currentPage = page;
     }
+
+    public Location getQueryLocation() { return this.queryLocation; }
+
+    public Instant getQueryTime() { return this.queryTime; }
 
     public List<BlockState> getContainersByPage(int page){
         if (page < 0 || page > this.containerPages.size()) return null;

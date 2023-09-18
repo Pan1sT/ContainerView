@@ -61,6 +61,7 @@ tasks {
         sequenceOf(
                 "cloud.commandframework",
                 "io.papermc.lib",
+                "space.arim.morepaperlib",
                 "net.william278",
                 "org.jetbrains",
                 "org.intellij",

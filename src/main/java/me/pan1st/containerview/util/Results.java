@@ -9,6 +9,7 @@ import net.kyori.adventure.text.event.ClickEvent;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextColor;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.block.BlockState;
 import org.bukkit.entity.Player;
 
@@ -38,12 +39,13 @@ public class Results {
 
         for (int i = 0; i < containerList.size(); i++) {
             BlockState container = containerList.get(i);
+            if (container.getBlock().getType() == Material.AIR) continue;
             ChatColor color = DISTINCT_COLORS[i % DISTINCT_COLORS.length];
             TextColor textColor = DISTINCT_TEXT_COLORS[i % DISTINCT_COLORS.length];
             Component clickMessage = Common.deserialize(plugin.setting.resultClickMessage).clickEvent(ClickEvent.callback(audience -> {
                         new TempContainerGUI(container).show((Player) audience);
                     },
-                    ClickCallback.Options.builder().uses(-1).lifetime(Duration.ofMinutes(10)).build()));
+                    ClickCallback.Options.builder().uses(-1).lifetime(Duration.ofSeconds(plugin.setting.cachedDuration)).build()));
 
             player.sendMessage(Common.withPlaceholder(plugin.setting.resultContent,
                     Components.placeholder("container_x", container.getX()),
@@ -58,14 +60,28 @@ public class Results {
         Component resultPrevious = Common.deserialize(plugin.setting.resultPrevious).clickEvent(
                 ClickEvent.runCommand("/cview page " + currentPage));
         Component resultNext = Common.deserialize(plugin.setting.resultNext).clickEvent(
-                ClickEvent.runCommand("/cview page " + currentPage + 2));
+                ClickEvent.runCommand("/cview page " + (currentPage + 2)));
 
-        player.sendMessage(Common.withPlaceholder(plugin.setting.resultFooter,
-                Components.placeholder("current_page", currentPage + 1),
-                Components.placeholder("total_page", totalPage),
-                Components.placeholder("result_previous", resultPrevious),
-                Components.placeholder("result_next", resultNext)
-        ));
+        if (currentPage == 0) {
+            player.sendMessage(Common.withPlaceholder(plugin.setting.resultFooterFirst,
+                    Components.placeholder("current_page", currentPage + 1),
+                    Components.placeholder("total_page", totalPage),
+                    Components.placeholder("result_next", resultNext)
+            ));
+        } else if (currentPage == totalPage - 1) {
+            player.sendMessage(Common.withPlaceholder(plugin.setting.resultFooterLast,
+                    Components.placeholder("current_page", currentPage + 1),
+                    Components.placeholder("total_page", totalPage),
+                    Components.placeholder("result_previous", resultPrevious)
+            ));
+        } else {
+            player.sendMessage(Common.withPlaceholder(plugin.setting.resultFooter,
+                    Components.placeholder("current_page", currentPage + 1),
+                    Components.placeholder("total_page", totalPage),
+                    Components.placeholder("result_previous", resultPrevious),
+                    Components.placeholder("result_next", resultNext)
+            ));
+        }
     }
 
     public void unshow() {

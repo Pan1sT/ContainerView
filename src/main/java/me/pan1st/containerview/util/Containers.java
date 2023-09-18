@@ -49,7 +49,7 @@ public final class Containers {
                 });
     }
 
-    private static boolean isWithinBoundingBox(Location center, Location check, int radius) {
+    public static boolean isWithinBoundingBox(Location center, Location check, int radius) {
         return check.getX() >= center.getX() - radius && check.getX() <= center.getX() + radius &&
                 check.getY() >= center.getY() - radius && check.getY() <= center.getY() + radius &&
                 check.getZ() >= center.getZ() - radius && check.getZ() <= center.getZ() + radius;

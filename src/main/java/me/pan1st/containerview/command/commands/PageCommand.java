@@ -3,11 +3,13 @@ package me.pan1st.containerview.command.commands;
 import cloud.commandframework.annotations.Argument;
 import cloud.commandframework.annotations.CommandDescription;
 import cloud.commandframework.annotations.CommandMethod;
+import cloud.commandframework.annotations.CommandPermission;
 import cloud.commandframework.annotations.processing.CommandContainer;
 import me.pan1st.containerview.ContainerView;
 import me.pan1st.containerview.profile.PlayerProfile;
 import me.pan1st.containerview.util.Common;
 import me.pan1st.containerview.util.Results;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.checkerframework.checker.nullness.qual.NonNull;
 
@@ -16,6 +18,7 @@ public class PageCommand {
 
     @CommandMethod("cview page <page>")
     @CommandDescription("switch new page")
+    @CommandPermission("cview.command.default")
     public final void page(@NonNull Player sender, @Argument("page") int page) {
         ContainerView plugin = ContainerView.getInstance();
         if (!plugin.playerProfiles.containsKey(sender.getUniqueId())){

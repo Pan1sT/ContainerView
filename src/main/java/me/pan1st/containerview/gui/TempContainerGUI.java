@@ -33,16 +33,19 @@ public class TempContainerGUI {
     }
 
     private DropperGui init(){
+        if (container.getBlock().getType() == Material.AIR){
+            return null;
+        }
         if (container.getType() == Material.DROPPER){
             Component guiTitle = Common.withPlaceholder(plugin.setting.guiTitle,
                     Components.placeholder("container_type", Component.translatable("block.minecraft.dropper")));
             gui = new DropperGui(ComponentHolder.of(guiTitle));
-            contents = ((Dropper) container).getInventory().getContents();
+            contents = ((Dropper) container.getLocation().getBlock().getState()).getInventory().getContents();
         } else if (container.getType() == Material.DISPENSER) {
             Component guiTitle = Common.withPlaceholder(plugin.setting.guiTitle,
                     Components.placeholder("container_type", Component.translatable("block.minecraft.dispenser")));
             gui = new DropperGui(ComponentHolder.of(guiTitle));
-            contents = ((Dispenser) container).getInventory().getContents();
+            contents = ((Dispenser) container.getLocation().getBlock().getState()).getInventory().getContents();
         }
         StaticPane pane = paneBuilder(contents);
         gui.getContentsComponent().addPane(pane);
@@ -52,6 +55,13 @@ public class TempContainerGUI {
     }
 
     public void show(Player player){
+        if (!plugin.playerProfiles.containsKey(player.getUniqueId())) {
+            return;
+        }
+        if (gui == null){
+            player.sendMessage(Common.deserialize(plugin.setting.containerNotFound));
+            return;
+        }
         gui.show(player);
     }
 
